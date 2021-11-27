@@ -20,11 +20,22 @@ Then, run database migrations by running:
 make build
 ```
 
+Before running the application, you will need to add a handful of OS Environment variables for Mailgun and Sendgrid:
+
+```
+export MAILGUN_API_URL=...
+export MAILGUN_API_KEY=...
+export SENDGRID_API_URL=...
+export SENDGRID_API_KEY=...
+```
+
 Finally, ensure that you have no other applications running on port 8000 and run
 
 ```
 make serve
 ```
+
+As an additional note, if you want to change default email providers from Mailgun to Sendgrid, simply change the default value in `/emailservice/emailservice/settings.py` under `USE_MAILGUN_SERVICE_AS_DEFAULT`
 
 ## Technologies Used
 

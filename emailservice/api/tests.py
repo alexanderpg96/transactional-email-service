@@ -2,10 +2,11 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from unittest import mock
 from api import utils
-import os
 
 
 def mocked_request_post(*args, **kwargs):
+    """Used for unittest mock.patch to mock requests package."""
+
     class MockResponse:
         def __init__(self, json_data, status_code):
             self.json_data = json_data

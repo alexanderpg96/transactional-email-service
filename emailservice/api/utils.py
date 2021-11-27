@@ -9,6 +9,11 @@ def _handle_data(self, html):
     """Handle data helper for HTMLParser.
 
     Source: https://stackoverflow.com/a/63899308
+
+    Parameters
+    ----------
+    html: str
+        Split html value.
     """
     self.text += html + "\n\n"
 
@@ -17,7 +22,18 @@ HTMLParser.handle_data = _handle_data
 
 
 def html_to_plain_text(html):
-    """Converts html to plain text."""
+    """Converts html to plain text.
+
+    Parameters
+    ----------
+    html: str
+        Entire html string to convert to plain text
+
+    Returns
+    -------
+    parsert.text.strip(): str
+        Plain text.
+    """
     parser = HTMLParser()
     parser.text = ""
     parser.feed(html)
@@ -26,7 +42,20 @@ def html_to_plain_text(html):
 
 
 def send_email(email_data, override_default=False):
-    """Send email to default API."""
+    """Send email to default API.
+
+    Parameters
+    ----------
+    email_data: dict
+        Email data from JSON body of POST.
+    override_default: bool
+        Determine whether to use default email service or not.
+
+    Returns
+    -------
+    dict
+        Dictionary containing message, service, and status code of email service request
+    """
     use_mailgun_as_default = settings.USE_MAILGUN_SERVICE_AS_DEFAULT
 
     if override_default:
@@ -39,7 +68,19 @@ def send_email(email_data, override_default=False):
 
 
 def send_to_mailgun(email_data):
-    """Sends email to mailgun API."""
+    """Sends email to mailgun API.
+
+
+    Parameters
+    ----------
+    email_data: dict
+        Email data from POST request.
+
+    Returns
+    -------
+    dict
+        Dictionary containing message, service, and status code of email service request
+    """
     response = requests.post(
         f"{settings.MAILGUN_API_URL}/messages",
         auth=("api", settings.MAILGUN_API_KEY),
@@ -60,7 +101,18 @@ def send_to_mailgun(email_data):
 
 
 def send_to_sendgrid(email_data):
-    """Sends email to sendgrid API."""
+    """Sends email to sendgrid API.
+
+    Parameters
+    ----------
+    email_data: dict
+        Email data from POST request.
+
+    Returns
+    -------
+    dict
+        Dictionary containing message, service, and status code of email service request
+    """
     response = requests.post(
         f"{settings.SENDGRID_API_URL}/mail/send",
         headers={

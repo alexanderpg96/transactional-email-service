@@ -11,6 +11,16 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+
+MAILGUN_API_URL = os.getenv("MAILGUN_API_URL")
+MAILGUN_API_KEY = os.getenv("MAILGUN_API_KEY")
+
+SENDGRID_API_URL = os.getenv("SENDGRID_API_URL")
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+
+USE_MAILGUN_SERVICE_AS_DEFAULT = True
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

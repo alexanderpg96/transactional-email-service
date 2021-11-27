@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from api.serializers import EmailMessageSerializer
+from .utils import send_email
 
 
 class EmailMessageView(APIView):
@@ -17,7 +18,15 @@ class EmailMessageView(APIView):
         serializer = EmailMessageSerializer(data=data)
 
         if serializer.is_valid():
-            # TODO: Email service code request goes here
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            # Initial request with default service
+            resp = send_email(serializer.data)
+            # Initial service failed, use fallback
+            if resp["status_code"] < 200 or resp["status_code"] > 204:
+                resp = send_email(serializer.data, override_default=True)
+
+            return Response(
+                {"message": resp["message"], "service": resp["type"]},
+                status=resp["status_code"],
+            )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
